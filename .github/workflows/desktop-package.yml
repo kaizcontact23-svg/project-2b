@@ -21,7 +21,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - 'dev'
+      - 'main'
     paths-ignore:
       - 'README.md'
       - 'fastlane/**'
@@ -107,7 +107,7 @@ jobs:
         with:
           command: -Kapp.machines=linux.amd64.glibc make linux-app
           agree_to_license: 1
-          signing_key: ${{ secrets.CONVEYOR_SIGNING_KEY }}
+          signing_key: ${{ secrets.SIGNING_KEY }}
 
       - name: Wrap Linux app tree → AppImage
         run: ./gradlew :desktopApp:packageConveyorAppImage --no-configuration-cache
@@ -130,7 +130,7 @@ jobs:
         with:
           command: '-Kapp.machines=[mac.amd64,mac.aarch64,windows.amd64] make site'
           agree_to_license: 1
-          signing_key: ${{ secrets.CONVEYOR_SIGNING_KEY }}
+          signing_key: ${{ secrets.SIGNING_KEY }}
 
       - name: Stage AppImage into output/ for upload
         run: cp desktopApp/build/appimage/conveyor/SimpMusic-*.AppImage output/
