@@ -37,6 +37,7 @@ jobs:
   build-desktop-packages:
     name: Build desktop packages (AppImage + Mac zip + Windows msix)
     runs-on: ubuntu-22.04
+    environment: SIGNING_KEY
     defaults:
       run:
         shell: bash
@@ -194,6 +195,7 @@ jobs:
   wrap-mac-dmg:
     name: Wrap macOS .zip → .dmg (installer UX)
     runs-on: macos-latest
+    environment: SIGNING_KEY
     needs: build-desktop-packages
     defaults:
       run:
