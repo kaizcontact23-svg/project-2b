@@ -1,4 +1,4 @@
-# CLAUDE.md - SimpMusic Project Guide for AI Agents
+ # CLAUDE.md - SimpMusic Project Guide for AI Agents
 
 ## 🌐 Language Rule
 
