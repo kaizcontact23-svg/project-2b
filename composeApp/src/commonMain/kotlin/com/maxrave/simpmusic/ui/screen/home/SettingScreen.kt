@@ -2845,9 +2845,9 @@ fun SettingScreen(
                     SettingItem(
                         icon = SimpIcons.Person,
                         title = stringResource(Res.string.author),
-                        subtitle = "baotrq",
+                        subtitle = "ARWR",
                         onClick = {
-                            uriHandler.openUri("https://github.com/baotrq/simpmusic-bao-showcase")
+                            uriHandler.openUri("https://ARWR.UK/")
                         },
                     )
                     SettingItem(
@@ -2855,7 +2855,7 @@ fun SettingScreen(
                         title = stringResource(Res.string.based_on_simpmusic),
                         subtitle = stringResource(Res.string.based_on_simpmusic_description),
                         onClick = {
-                            uriHandler.openUri("https://github.com/maxrave-dev/SimpMusic")
+                            uriHandler.openUri("https://ARWR.UK")
                         },
                     )
                     // Fork: one button. This app's own releases where they exist, upstream's elsewhere.
