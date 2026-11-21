@@ -105,10 +105,13 @@ jobs:
       # Conveyor 22.0 dropped native AppImage support, hence the wrap.
       - name: Run Conveyor (linux-app)
         uses: hydraulic-software/conveyor/actions/build@v22.0
+        env:
+          SIGNING_PASSPHRASE: ${{ secrets.SIGNING_PASSPHRASE }}
         with:
           command: -Kapp.machines=linux.amd64.glibc make linux-app
           agree_to_license: 1
           signing_key: ${{ secrets.SIGNING_KEY }}
+          extra_flags: --passphrase=env:SIGNING_PASSPHRASE
 
       - name: Wrap Linux app tree → AppImage
         run: ./gradlew :desktopApp:packageConveyorAppImage --no-configuration-cache
@@ -128,10 +131,13 @@ jobs:
       # Windows artifacts get a chance to run.
       - name: Run Conveyor (make site, Mac + Windows only)
         uses: hydraulic-software/conveyor/actions/build@v22.0
+        env:
+          SIGNING_PASSPHRASE: ${{ secrets.SIGNING_PASSPHRASE }}
         with:
           command: '-Kapp.machines=[mac.amd64,mac.aarch64,windows.amd64] make site'
           agree_to_license: 1
           signing_key: ${{ secrets.SIGNING_KEY }}
+          extra_flags: --passphrase=env:SIGNING_PASSPHRASE
 
       - name: Stage AppImage into output/ for upload
         run: cp desktopApp/build/appimage/conveyor/SimpMusic-*.AppImage output/
