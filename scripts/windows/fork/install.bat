@@ -1,6 +1,6 @@
 @echo off
-REM SimpMusic installer for Windows. Double-click this file and click Yes when Windows asks for admin.
-REM Keep it in the same folder as install.ps1, simpmusic.crt and the simpmusic-*.msix.
+REM ARWRMUSIC installer for Windows. Double-click this file and click Yes when Windows asks for admin.
+REM Keep it in the same folder as install.ps1, arwrmusic.crt and the arwrmusic-*.msix.
 setlocal
 cd /d "%~dp0"
 
@@ -23,7 +23,7 @@ if %errorlevel% neq 0 (
 )
 
 echo.
-echo === SimpMusic installer ===
+echo === ARWRMUSIC installer ===
 echo.
 powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0install.ps1"
 echo.

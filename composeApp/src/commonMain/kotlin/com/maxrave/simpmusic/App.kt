@@ -326,15 +326,15 @@ fun App(
                 // of it. The token is handed straight to the shared view model, and the screen
                 // closes itself when it sees a session key appear.
                 token?.let { viewModel.completeLastfmLogin(it) }
-            } else if (data.host == "simpmusic.org" || data.scheme == "simpmusic") {
-                // https://simpmusic.org/app/watch?v=VIDEO_ID
-                // https://simpmusic.org/app/playlist?list=PLAYLIST_ID
-                // https://simpmusic.org/app/channel/CHANNEL_ID
+            } else if (data.host == "arwr.uk" || data.host == "simpmusic.org" || data.scheme == "simpmusic") {
+                // arwr.uk/app/watch?v=VIDEO_ID
+                // arwr.uk/app/playlist?list=PLAYLIST_ID
+                // arwr.uk/app/channel/CHANNEL_ID
                 // simpmusic://watch?v=VIDEO_ID  (host="watch", no path)
                 // simpmusic://playlist?list=PLAYLIST_ID
                 // simpmusic://channel/CHANNEL_ID
                 val segments = data.pathSegments
-                // For simpmusic.org: segments = ["app", "watch"] → appPath = segments[1]
+                // For website links: segments = ["app", "watch"] → appPath = segments[1]
                 // For simpmusic://: host IS the appPath (e.g. host="watch"), segments = []
                 val appPath =
                     if (data.scheme == "simpmusic") {
@@ -342,7 +342,7 @@ fun App(
                     } else {
                         segments.getOrNull(1)
                     }
-                Logger.d("MainActivity", "simpmusic.org deep link, appPath: $appPath")
+                Logger.d("MainActivity", "Website deep link, appPath: $appPath")
                 // A path added to the when below must also go into APP_LINK_PATHS in AppLinks.kt.
                 // Some screens exist only with local tracking on or while signed in to YouTube; see
                 // isAppLinkAvailable. Read before setIntent(null): clearing the intent changes this
@@ -372,7 +372,7 @@ fun App(
 
                     "channel", "c" -> {
                         // simpmusic://channel/UCxxx → segments = ["UCxxx"]
-                        // simpmusic.org/app/channel/UCxxx → segments = ["app", "channel", "UCxxx"]
+                        // arwr.uk/app/channel/UCxxx → segments = ["app", "channel", "UCxxx"]
                         val artistId =
                             if (data.scheme == "simpmusic") {
                                 segments.firstOrNull()

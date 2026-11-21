@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Builds signed, notarized SimpMusic DMGs for Apple Silicon and Intel Macs, into build/mac/.
+# Builds signed, notarized ARWRMUSIC DMGs for Apple Silicon and Intel Macs, into build/mac/.
 #
 #   scripts/build-mac.sh              # both
 #   scripts/build-mac.sh aarch64      # Apple Silicon only (or: amd64)
@@ -97,7 +97,7 @@ for arch in "${archs[@]}"; do
   notarize "$zip"
   xcrun stapler staple "$app"
 
-  dmg="$OUT/SimpMusic-$version-mac-$arch.dmg"
+  dmg="$OUT/ARWRMUSIC-$version-mac-$arch.dmg"
   echo "==> mac.$arch: wrapping $dmg"
   scripts/wrap-mac-dmg.sh "$app" "$OUT/dmg-bg.png" composeApp/icon/rounded_app_icon.icns "$dmg"
 
@@ -114,7 +114,7 @@ if $publish; then
   files=()
   for arch in "${archs[@]}"; do
     [[ "$arch" == aarch64 ]] && site=mac-arm || site=mac-intel
-    files+=("$site=$OUT/SimpMusic-$version-mac-$arch.dmg")
+    files+=("$site=$OUT/ARWRMUSIC-$version-mac-$arch.dmg")
   done
   node scripts/download-site/publish.mjs --version "$version" "${files[@]}"
 fi

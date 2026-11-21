@@ -15,7 +15,7 @@ $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
 # Binaries we build ourselves; a CN=SimpMusic signature on these is expected.
-$ours = @('SimpMusic.exe')
+$ours = @('ARWRMUSIC.exe')
 # Upstream ships these unsigned, so CN=SimpMusic is all they can carry. Reported, not failed: 2.5.0.10
 # ran the same way. If Smart App Control ever blocks them, playback fails rather than launch.
 $knownUnsigned = @('libmpv-2.dll')

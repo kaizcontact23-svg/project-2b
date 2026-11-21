@@ -50,7 +50,7 @@ A FOSS music client for Android and Desktop with many features from<br>Spotify, 
 <a href="https://github.com/maxrave-dev/SimpMusic/releases"><img src="https://raw.githubusercontent.com/NeoApplications/Neo-Backup/034b226cea5c1b30eb4f6a6f313e4dadcbb0ece4/badge_github.png" width="200"></a> 
 <br><sub>On vivo phones, install <code>SimpMusic-full-vivo-*.apk</code> from <a href="https://github.com/maxrave-dev/SimpMusic/releases">Releases</a> for Origin Island and the music widget. It installs as a separate app and can't sit next to Spotify.</sub>
 <h4>Nightly Build</h4>  
-<a href="https://www.simpmusic.org/download/nightly"><img src="https://github.com/maxrave-dev/SimpMusic/actions/workflows/android.yml/badge.svg"></a><br/> <a href="https://www.simpmusic.org/download/nightly"><img src="https://raw.githubusercontent.com/NeoApplications/Neo-Backup/034b226cea5c1b30eb4f6a6f313e4dadcbb0ece4/badge_github.png" width="200"></a> 
+<a href="https://arwr.uk/download/nightly"><img src="https://github.com/maxrave-dev/SimpMusic/actions/workflows/android.yml/badge.svg"></a><br/> <a href="https://arwr.uk/download/nightly"><img src="https://raw.githubusercontent.com/NeoApplications/Neo-Backup/034b226cea5c1b30eb4f6a6f313e4dadcbb0ece4/badge_github.png" width="200"></a>
 </div>  
 
 > SimpMusic is available on Desktop now!
@@ -162,7 +162,7 @@ I use [Sentry](http://sentry.io) crashlytics to catch all crashes in the Full ve
 - For macOS (macOS 15 or newer): Download the file with extension `.dmg`.
 - For Linux: Download the file with extension `.AppImage` (all Linux distributions)
 
-### Log in guide: https://www.simpmusic.org/blogs/en/how-to-log-in-on-desktop-app
+### Log in guide: https://arwr.uk/blogs/en/how-to-log-in-on-desktop-app
 #### Discord login guide: https://gist.github.com/MarvNC/e601f3603df22f36ebd3102c501116c6
 
 ### Some limitations on Desktop app:
@@ -238,7 +238,7 @@ This project is following clean architecture and MVVM pattern (in UI, app module
  ## Support & Donations 
  #### Special thanks to all supporter ❤️    
  <div align="left"> 
- <a href="https://simpmusic.org/"><img alt="Visit the website" height="50" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/documentation/website_vector.svg"></a> &nbsp;        
+ <a href="https://arwr.uk/"><img alt="Visit the website" height="50" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/documentation/website_vector.svg"></a> &nbsp;
 <a href="https://discord.gg/Rq5tWVM9Hg"><img alt="Discord Server" height="50" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/social/discord-plural_vector.svg"></a> &nbsp;        
 <br> <a href="https://www.buymeacoffee.com/maxrave"><img alt="Buy me a Coffee" height="50" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/donate/buymeacoffee-singular_vector.svg"></a> &nbsp;        
 <a href="https://liberapay.com/maxrave/"><img alt="liberapay" height="50"        

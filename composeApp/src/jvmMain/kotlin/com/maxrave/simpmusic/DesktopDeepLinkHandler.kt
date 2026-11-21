@@ -19,7 +19,7 @@ import java.io.File
  * - simpmusic://playlist?list=PLAYLIST_ID   (direct scheme)
  * - simpmusic://channel/CHANNEL_ID          (direct scheme)
  * - simpmusic://album?id=ALBUM_ID           (direct scheme)
- * - https://simpmusic.org/app/...            (web URL passed via args)
+ * - https://arwr.uk/app/...                  (web URL passed via args)
  */
 object DesktopDeepLinkHandler {
     private const val TAG = "DesktopDeepLinkHandler"
@@ -95,10 +95,10 @@ object DesktopDeepLinkHandler {
      *    → Extract the `url` param and use it as intent data
      *
      * 2. simpmusic://watch?v=xxx, simpmusic://playlist?list=xxx, etc.
-     *    → Convert to https://simpmusic.org/app/watch?v=xxx format
-     *      so App.kt handles it uniformly via the simpmusic.org branch
+     *    → Convert to https://arwr.uk/app/watch?v=xxx format
+     *      so App.kt handles it uniformly via the website-link branch
      *
-     * 3. https://simpmusic.org/app/... or YouTube URLs
+     * 3. https://arwr.uk/app/... or YouTube URLs
      *    → Pass through as-is
      */
     private fun parseToIntent(uri: String): GenericIntent {
@@ -118,27 +118,27 @@ object DesktopDeepLinkHandler {
                 }
             }
 
-            // simpmusic://watch?v=xxx → https://simpmusic.org/app/watch?v=xxx
-            // simpmusic://playlist?list=xxx → https://simpmusic.org/app/playlist?list=xxx
-            // simpmusic://channel/UCxxx → https://simpmusic.org/app/channel/UCxxx
-            // simpmusic://album?id=xxx → https://simpmusic.org/app/album?id=xxx
+            // simpmusic://watch?v=xxx → https://arwr.uk/app/watch?v=xxx
+            // simpmusic://playlist?list=xxx → https://arwr.uk/app/playlist?list=xxx
+            // simpmusic://channel/UCxxx → https://arwr.uk/app/channel/UCxxx
+            // simpmusic://album?id=xxx → https://arwr.uk/app/album?id=xxx
             parsed.scheme == "simpmusic" && parsed.host != null -> {
                 val host = parsed.host!!
                 val query = parsed.query?.let { "?$it" } ?: ""
                 val pathSuffix = parsed.pathSegments.joinToString("/").let {
                     if (it.isNotEmpty()) "/$it" else ""
                 }
-                val convertedUrl = "https://simpmusic.org/app/$host$pathSuffix$query"
+                val convertedUrl = "https://arwr.uk/app/$host$pathSuffix$query"
                 Logger.d(TAG, "Converted simpmusic:// to: $convertedUrl")
                 Uri.parse(convertedUrl)
             }
 
             // wordbyword://lastfm-auth?token=xxx → pass through untouched. It must NOT be rewritten
-            // to simpmusic.org like the branch above does: App.kt matches on this exact scheme to
+            // to arwr.uk like the branch above does: App.kt matches on this exact scheme to
             // read the Last.fm request token.
             parsed.scheme == "wordbyword" -> parsed
 
-            // https://simpmusic.org/app/... or YouTube URLs → pass through
+            // https://arwr.uk/app/... or YouTube URLs → pass through
             else -> parsed
         }
 

@@ -8,7 +8,7 @@ import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
-// desktopApp — JVM application module for SimpMusic Desktop.
+// desktopApp — JVM application module for ARWRMUSIC Desktop.
 //
 // Per JetBrains 2026 KMP guidance (AGP 9 + new default structure), the
 // platform-app entry points live in dedicated modules separate from the
@@ -117,7 +117,7 @@ dependencies {
     windowsAmd64(libs.compose.windows.x64)
 }
 
-// Append SimpMusic-specific keys to Conveyor's generated config file and
+// Append ARWRMUSIC-specific keys to Conveyor's generated config file and
 // — crucially — replace the auto-detected `app.inputs` classpath with
 // ProGuard's shrunk jar directory so the packaged AppImage carries
 // obfuscated + size-reduced bytecode instead of raw Gradle output.
@@ -144,8 +144,8 @@ tasks.named<hydraulic.conveyor.gradle.WriteConveyorConfigTask>("writeConveyorCon
 
         config.appendText(
             """
-            |app.fsname = simpmusic
-            |app.display-name = SimpMusic
+            |app.fsname = arwrmusic
+            |app.display-name = ARWRMUSIC
             |app.rdns-name = com.maxrave.simpmusic
             |
             |// Override the Gradle-detected classpath with the ProGuard'd
@@ -194,7 +194,7 @@ compose.desktop {
             }
             targetFormats(*listTarget.toTypedArray())
             modules("jdk.unsupported")
-            packageName = "SimpMusic"
+            packageName = "ARWRMUSIC"
             macOS {
                 val formatedDate =
                     Instant.now().let {
@@ -324,7 +324,7 @@ afterEvaluate {
             jvmArgs("--add-opens", "java.desktop/sun.lwawt.macosx=ALL-UNNAMED")
         }
 
-        // forceLinuxWmClass() in Main.kt needs this to rename the window "SimpMusic"; without it
+        // forceLinuxWmClass() in Main.kt needs this to rename the window "ARWRMUSIC"; without it
         // the dock falls back to the class name. Packaged builds get it from conveyor.conf.
         if (System.getProperty("os.name").contains("Linux")) {
             jvmArgs("--add-opens", "java.desktop/sun.awt.X11=ALL-UNNAMED")
@@ -376,7 +376,7 @@ tasks.register("packageConveyorAppImage") {
     )
 
     doLast {
-        val appName = "SimpMusic"
+        val appName = "ARWRMUSIC"
         val conveyorOutput = rootDir.resolve("output")
         if (!conveyorOutput.exists()) {
             throw GradleException(
@@ -440,13 +440,13 @@ tasks.register("packageConveyorAppImage") {
             """[Desktop Entry]
             |Type=Application
             |Version=1.0
-            |Name=SimpMusic
-            |Comment=SimpMusic v$versionName - FOSS YouTube Music Client
-            |Exec=bin/simpmusic %u
-            |Icon=simpmusic
+            |Name=ARWRMUSIC
+            |Comment=ARWRMUSIC v$versionName - FOSS YouTube Music Client
+            |Exec=bin/arwrmusic %u
+            |Icon=arwrmusic
             |Terminal=false
             |Categories=Audio;AudioVideo;
-            |StartupWMClass=SimpMusic
+            |StartupWMClass=ARWRMUSIC
             |MimeType=x-scheme-handler/simpmusic;x-scheme-handler/wordbyword;
             |
             """.trimMargin(),
@@ -523,7 +523,7 @@ tasks.register("packageConveyorAppImage") {
 // Single command for users: `./gradlew :desktopApp:buildLinuxAppImage --no-configuration-cache`
 tasks.register("buildLinuxAppImage") {
     group = "distribution"
-    description = "Full SimpMusic Desktop Linux AppImage build pipeline (mpvSetupAll → conveyor → AppImage)."
+    description = "Full ARWRMUSIC Desktop Linux AppImage build pipeline (mpvSetupAll → conveyor → AppImage)."
     dependsOn(conveyorMakeLinuxApp)
     finalizedBy("packageConveyorAppImage")
 }
@@ -567,13 +567,13 @@ val conveyorMakeMacZipAarch64 =
 
 tasks.register("buildMacZipAmd64") {
     group = "distribution"
-    description = "Full SimpMusic Desktop macOS Intel .zip pipeline (mpvSetupAll → conveyor)."
+    description = "Full ARWRMUSIC Desktop macOS Intel .zip pipeline (mpvSetupAll → conveyor)."
     dependsOn(conveyorMakeMacZipAmd64)
 }
 
 tasks.register("buildMacZipAarch64") {
     group = "distribution"
-    description = "Full SimpMusic Desktop macOS Apple Silicon .zip pipeline (mpvSetupAll → conveyor)."
+    description = "Full ARWRMUSIC Desktop macOS Apple Silicon .zip pipeline (mpvSetupAll → conveyor)."
     dependsOn(conveyorMakeMacZipAarch64)
 }
 
@@ -599,7 +599,7 @@ val conveyorMakeWindowsMsix =
 
 tasks.register("buildWindowsMsix") {
     group = "distribution"
-    description = "Full SimpMusic Desktop Windows .msix pipeline (mpvSetupAll → conveyor)."
+    description = "Full ARWRMUSIC Desktop Windows .msix pipeline (mpvSetupAll → conveyor)."
     dependsOn(conveyorMakeWindowsMsix)
 }
 
@@ -623,7 +623,7 @@ val prepareWixResources =
     }
 tasks.register<Exec>("packageWindowsMsi") {
     group = "distribution"
-    description = "Build SimpMusic's .msi. Windows only; stage mpv-natives/windows-x64 first."
+    description = "Build ARWRMUSIC's .msi. Windows only; stage mpv-natives/windows-x64 first."
     dependsOn("createDistributable", prepareWixResources, ":unzipWix")
     notCompatibleWithConfigurationCache("Runs jpackage against the plugin's output and its WiX download.")
 
@@ -631,7 +631,7 @@ tasks.register<Exec>("packageWindowsMsi") {
         javaToolchains
             .launcherFor { languageVersion.set(JavaLanguageVersion.of(21)) }
             .map { it.metadata.installationPath.file("bin/jpackage.exe").asFile.absolutePath }
-    val appImage = layout.buildDirectory.dir("compose/binaries/main/app/SimpMusic")
+    val appImage = layout.buildDirectory.dir("compose/binaries/main/app/ARWRMUSIC")
     val output = layout.buildDirectory.dir("compose/binaries/main/msi")
     val wix = rootProject.layout.buildDirectory.dir("wix311")
     doFirst {
@@ -652,7 +652,7 @@ tasks.register<Exec>("packageWindowsMsi") {
             // Per-user needs no admin rights. Without menu and shortcut it installs with no way to open.
             "--win-per-user-install",
             "--win-menu",
-            "--win-menu-group", "ARWRMusic",
+            "--win-menu-group", "ARWRMUSIC",
             "--win-shortcut",
             // The folder step never shows, since main.wxs replaces the UI. This is what makes jpackage
             // link WiX's UI library, which that UI is built from.

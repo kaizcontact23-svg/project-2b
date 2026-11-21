@@ -422,7 +422,7 @@ filled states render identically.
   - libmpv: audio + video playback (bundled via `mpvSetupAll`; falls back to a system-wide libmpv when `mpv-natives/` has not been staged)
 - **Minimum macOS: 15.0** — raised from 11.0 when VLC was replaced by mpv. mpv's macOS release builds target macOS 15 (96/98 arm64 dylibs declare `minos 15.0`; on Intel `libmpv` itself does), and Conveyor rejects a lower `LSMinimumSystemVersion`. No mpv artifact covers both architectures below 15.
 - **Features**:
-  - Deep link support (`simpmusic://` and `simpmusic.org`)
+  - Deep link support (`simpmusic://` and `arwr.uk`; legacy `simpmusic.org` links remain supported)
   - Mini Player window (always-on-top, resizable, draggable)
   - Crash dialog
   - Custom title bar (macOS only; Windows and Linux keep the native title bar)
@@ -501,7 +501,7 @@ See `CODE_OF_CONDUCT.md`
 - [mpv EDL format](https://github.com/mpv-player/mpv/blob/master/DOCS/edl-mpv.rst)
 
 ### Community
-- Website: https://simpmusic.org
+- Website: https://arwr.uk
 - Discord: https://discord.gg/Rq5tWVM9Hg
 - GitHub Issues: Bug reports and feature requests
 
@@ -565,7 +565,7 @@ if (getPlatform() == Platform.Android) {
 
 ### New Features (post-1.0.4, dev branch)
 - **Icons unified on Material Symbols (2026-08-03)**: `material-icons-core`/`material-icons-extended` are gone, and so are the XML icon drawables — every icon is now a generated `ImageVector` under `ui/icon/`, addressed as `SimpIcons.<Name>`. Two migrations fed into this: 59 icons replacing `Icons.*` (117 call sites), then 25 more replacing `painterResource(Res.drawable.baseline_*)` (167 call sites, 44 XML files deleted). `RippleIconButton`, `LiquidGlassIconButton` and `ActionButton` changed from taking `DrawableResource`/`Painter` to `ImageVector`. See **Common Tasks → Add a New Icon** for how to add one and which traps to avoid. Icons whose colour carries meaning (`baseline_downloaded`, `baseline_favorite_24`), the logos (`mono`, `monochrome`) and the `holder*` bitmaps deliberately stay as resources.
-- **Deep link support**: `simpmusic://` and `simpmusic.org` URL schemes
+- **Deep link support**: `simpmusic://` and `arwr.uk` URL links; legacy `simpmusic.org` links remain supported
 - **Desktop Crash dialog**: Error reporting UI for desktop
 - **Playback speed/pitch controls**: Redesigned UI with improved animations
 - **VM environment detection**: Disable transparency and custom titlebar in VMs
@@ -886,7 +886,7 @@ if (getPlatform() == Platform.Android) {
   - Desktop name: macOS `scutil --get ComputerName`, Windows `COMPUTERNAME`, Linux `/etc/hostname`.
   - Known limits: the phone must be able to reach one of those addresses (guest Wi-Fi usually blocks client-to-client traffic), and the first listen raises the Windows Firewall / macOS incoming-connection prompt.
 
-- **Unofficial copies are blocked on Android (2026-09-22)**: our own release APKs circulate renamed and re-signed (App Cloner / apktool — seen as `com.spotify.music`, `cn.kuwo.player`, `com.apple.android.music`, `com.anxhify.music`). The package must be in `Config.OFFICIAL_PACKAGE_NAMES` (`com.maxrave.simpmusic`, `.dev`) **and** the signing certificate's SHA-256 must match `AllowedAPKSigningKeys` in F-Droid's metadata for this app — F-Droid ships the APK we sign, so that value is our release key and one check covers both flavours. **The key is not in the code**: it follows the update check's path — `Ytmusic.fdroidMetadata()` (fdroiddata `master`, raw.githubusercontent — so a key rotation on F-Droid reaches the app without a release; the field may be one inline value or a YAML list) → `YouTube.getFdroidSigningKeys()` → `UpdateRepository.getFdroidSigningKeys()` → `SharedViewModel.checkOfficialBuild(packageName, signingCertSha256())` → `isOfficialBuild: StateFlow<Boolean>`, collected in `App()`. It starts `true` and only a successful fetch with none of our keys turns it `false`, so a failed fetch (or no certificate read at all) never blocks — the app plays offline. A failing copy gets `UnofficialBuildScreen` inside `App()`'s own `AppTheme` (so it follows the user's theme mode and colour) in place of the whole app: a full-screen block with no way back into the app, only a download button to simpmusic.org/download. Desktop is out of scope and untouched (the state defaults to `true` and nothing there calls the check).
+- **Unofficial copies are blocked on Android (2026-09-22)**: our own release APKs circulate renamed and re-signed (App Cloner / apktool — seen as `com.spotify.music`, `cn.kuwo.player`, `com.apple.android.music`, `com.anxhify.music`). The package must be in `Config.OFFICIAL_PACKAGE_NAMES` (`com.maxrave.simpmusic`, `.dev`) **and** the signing certificate's SHA-256 must match `AllowedAPKSigningKeys` in F-Droid's metadata for this app — F-Droid ships the APK we sign, so that value is our release key and one check covers both flavours. **The key is not in the code**: it follows the update check's path — `Ytmusic.fdroidMetadata()` (fdroiddata `master`, raw.githubusercontent — so a key rotation on F-Droid reaches the app without a release; the field may be one inline value or a YAML list) → `YouTube.getFdroidSigningKeys()` → `UpdateRepository.getFdroidSigningKeys()` → `SharedViewModel.checkOfficialBuild(packageName, signingCertSha256())` → `isOfficialBuild: StateFlow<Boolean>`, collected in `App()`. It starts `true` and only a successful fetch with none of our keys turns it `false`, so a failed fetch (or no certificate read at all) never blocks — the app plays offline. A failing copy gets `UnofficialBuildScreen` inside `App()`'s own `AppTheme` (so it follows the user's theme mode and colour) in place of the whole app: a full-screen block with no way back into the app, only a download button to arwr.uk/download. Desktop is out of scope and untouched (the state defaults to `true` and nothing there calls the check).
   - **The two halves catch different things.** Signature-killer tools (MT Manager, ApkSignatureKiller) hook `PackageManager` into returning our certificate, but cannot hide a renamed package — and every clone seen so far was renamed.
   - Debug builds skip the check (`BuildConfig.DEBUG`, a compile-time constant): they are signed with each machine's debug key. Do not key this off the manifest's `debuggable` flag instead — a modder can set that.
   - `MainActivity.onCreate` reloads `viewModelModule`, so `SharedViewModel` is rebuilt whenever the activity is recreated (language or light/dark change) and the signature half re-fetches from `true`; the package half is synchronous and unaffected.

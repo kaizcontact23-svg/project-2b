@@ -1,4 +1,4 @@
-# SimpMusic (fork) installer for Windows. install.bat runs this as admin.
+# ARWRMUSIC installer for Windows. install.bat runs this as admin.
 #
 # Same idea as upstream's scripts/windows/install.bat: trust the certificate the .msix is signed
 # with, then sideload the .msix. The package's name, publisher and app id are read from the .msix
@@ -15,10 +15,10 @@ function Fail($message) {
     exit 1
 }
 
-$cert = Join-Path $here 'simpmusic.crt'
-if (-not (Test-Path $cert)) { Fail "simpmusic.crt not found next to install.bat." }
-$msix = Get-ChildItem -Path $here -Filter 'simpmusic-*.msix' | Select-Object -First 1
-if (-not $msix) { Fail "No simpmusic-*.msix found next to install.bat." }
+$cert = Join-Path $here 'arwrmusic.crt'
+if (-not (Test-Path $cert)) { Fail "arwrmusic.crt not found next to install.bat." }
+$msix = Get-ChildItem -Path $here -Filter 'arwrmusic-*.msix' | Select-Object -First 1
+if (-not $msix) { Fail "No arwrmusic-*.msix found next to install.bat." }
 
 # The package's identity and app id, from its manifest.
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -34,7 +34,7 @@ $name = $manifest.Package.Identity.Name
 $publisher = $manifest.Package.Identity.Publisher
 $appId = @($manifest.Package.Applications.Application)[0].Id
 
-Write-Host "[1/4] Trusting the SimpMusic certificate (LocalMachine\TrustedPeople) ..."
+Write-Host "[1/4] Trusting the ARWRMUSIC certificate (LocalMachine\TrustedPeople) ..."
 certutil -addstore -f TrustedPeople "$cert" | Out-Null
 if ($LASTEXITCODE -ne 0) { Fail "Certificate import failed." }
 
@@ -80,7 +80,7 @@ try {
     }
 }
 
-Write-Host "[4/4] Opening SimpMusic ..."
+Write-Host "[4/4] Opening ARWRMUSIC ..."
 $package = Get-AppxPackage -Name $name | Where-Object { $_.Publisher -eq $publisher } | Select-Object -First 1
 if ($package) {
     # Through explorer, so the app starts as the normal user rather than inheriting this window's admin rights.
@@ -88,5 +88,5 @@ if ($package) {
 }
 
 Write-Host ""
-Write-Host "SimpMusic is installed. It is in the Start menu from now on."
-Write-Host "To uninstall: Settings > Apps > Installed apps > SimpMusic > Uninstall."
+Write-Host "ARWRMUSIC is installed. It is in the Start menu from now on."
+Write-Host "To uninstall: Settings > Apps > Installed apps > ARWRMUSIC > Uninstall."

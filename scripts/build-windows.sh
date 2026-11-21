@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Builds SimpMusic's Windows installer into build/windows/SimpMusic-Windows-installer.zip:
+# Builds ARWRMUSIC's Windows installer into build/windows/ARWRMUSIC-Windows-installer.zip:
 # an .msix plus the certificate it is signed with and an install.bat that trusts it, as upstream ships.
 #
 #   scripts/build-windows.sh            # build only
@@ -19,7 +19,7 @@ cd "$(dirname "$0")/.."
 
 REPO=baotrq/simpmusic-bao-showcase
 OUT=build/windows
-ZIP_NAME=SimpMusic-Windows-installer.zip
+ZIP_NAME=ARWRMUSIC-Windows-installer.zip
 
 upload=false
 for arg in "$@"; do
@@ -37,19 +37,19 @@ $upload && { command -v gh >/dev/null || { echo "gh is not installed." >&2; exit
 ./gradlew exportLibraryDefinitions
 ./gradlew :composeApp:mpvSetupAll -PmpvSlices=windows-x64 :desktopApp:writeConveyorConfig --no-configuration-cache
 
-# `site` is what writes simpmusic.crt next to the .msix; `windows-msix` alone does not.
+# `site` is what writes arwrmusic.crt next to the .msix; `windows-msix` alone does not.
 # Its own output folder: every Conveyor run empties the one it writes to, and build-mac.sh uses output/.
 conveyor_out="$OUT/conveyor"
 rm -rf "$OUT"
 mkdir -p "$OUT"
 conveyor --agree-to-license=1 "-Kapp.machines=windows.amd64" make site -o "$conveyor_out"
 
-msix=$(ls "$conveyor_out"/simpmusic-*.x64.msix 2>/dev/null | head -1)
-[[ -f "$msix" ]] || { echo "Conveyor produced no simpmusic-*.x64.msix in $conveyor_out/" >&2; exit 1; }
-[[ -f "$conveyor_out/simpmusic.crt" ]] || { echo "Conveyor produced no $conveyor_out/simpmusic.crt" >&2; exit 1; }
+msix=$(ls "$conveyor_out"/arwrmusic-*.x64.msix 2>/dev/null | head -1)
+[[ -f "$msix" ]] || { echo "Conveyor produced no arwrmusic-*.x64.msix in $conveyor_out/" >&2; exit 1; }
+[[ -f "$conveyor_out/arwrmusic.crt" ]] || { echo "Conveyor produced no $conveyor_out/arwrmusic.crt" >&2; exit 1; }
 
 mkdir -p "$OUT/stage"
-cp scripts/windows/fork/install.bat scripts/windows/fork/install.ps1 "$conveyor_out/simpmusic.crt" "$msix" "$OUT/stage/"
+cp scripts/windows/fork/install.bat scripts/windows/fork/install.ps1 "$conveyor_out/arwrmusic.crt" "$msix" "$OUT/stage/"
 (cd "$OUT/stage" && zip -q -j "../$ZIP_NAME" ./*)
 rm -rf "$OUT/stage"
 ls -lh "$OUT/$ZIP_NAME"
