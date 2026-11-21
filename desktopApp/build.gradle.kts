@@ -643,16 +643,16 @@ tasks.register<Exec>("packageWindowsMsi") {
             "--type", "msi",
             "--app-image", appImage.get().asFile.absolutePath,
             "--dest", output.get().asFile.absolutePath,
-            "--name", "SimpMusic",
+            "--name", "ARWRMUSIC",
             "--app-version", windowsMsiVersion,
-            "--vendor", "baotrq",
-            "--description", "SimpMusic",
+            "--vendor", "dkhang",
+            "--description", "ARWRMUSIC",
             "--icon", rootDir.resolve("composeApp/icon/circle_app_icon.ico").absolutePath,
             "--resource-dir", wixResources.get().asFile.absolutePath,
             // Per-user needs no admin rights. Without menu and shortcut it installs with no way to open.
             "--win-per-user-install",
             "--win-menu",
-            "--win-menu-group", "SimpMusic",
+            "--win-menu-group", "ARWRMusic",
             "--win-shortcut",
             // The folder step never shows, since main.wxs replaces the UI. This is what makes jpackage
             // link WiX's UI library, which that UI is built from.
